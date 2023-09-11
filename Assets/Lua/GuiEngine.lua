@@ -124,12 +124,20 @@ Library.Graphics.ImmediateDraw = function(Class, Properties)
 end;
 
 Library.Graphics.ImmediateDrawPolygon = function(Poly, Properties, Bounds)
-    for i = 1, #Poly do 
-        local To = (Poly[i + 1] or Poly[1]); 
-        local From = Poly[i];
-        Properties.From = Vector2(Clamp(From.x, Bounds.Min.x, Bounds.Max.x), Clamp(From.y, Bounds.Min.y, Bounds.Max.y));
-        Properties.To = Vector2(Clamp(To.x, Bounds.Min.x, Bounds.Max.x), Clamp(To.y, Bounds.Min.y, Bounds.Max.y));
-        Library.Graphics.ImmediateDraw("Line", Properties);
+    if (#Poly == 3) then 
+        Properties.PointA = Poly[1];
+        Properties.PointB = Poly[2];
+        Properties.PointC = Poly[3];
+        Library.Graphics.ImmediateDraw("Triangle", Properties);
+    else 
+        Properties.Filled = nil;
+        for i = 1, #Poly do 
+            local To = (Poly[i + 1] or Poly[1]); 
+            local From = Poly[i];
+            Properties.From = Vector2(Clamp(From.x, Bounds.Min.x, Bounds.Max.x), Clamp(From.y, Bounds.Min.y, Bounds.Max.y));
+            Properties.To = Vector2(Clamp(To.x, Bounds.Min.x, Bounds.Max.x), Clamp(To.y, Bounds.Min.y, Bounds.Max.y));
+            Library.Graphics.ImmediateDraw("Line", Properties);
+        end; 
     end; 
 end;
 
