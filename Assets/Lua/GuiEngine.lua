@@ -125,9 +125,9 @@ end;
 
 Library.Graphics.ImmediateDrawPolygon = function(Poly, Properties, Bounds)
     if (#Poly == 3) then 
-        Properties.PointA = Poly[1];
-        Properties.PointB = Poly[2];
-        Properties.PointC = Poly[3];
+        Properties.PointA = Vector2(Clamp(Poly[1].x, Bounds.Min.x, Bounds.Max.x), Clamp(Poly[1], Bounds.Min.y, Bounds.Max.y));
+        Properties.PointB = Vector2(Clamp(Poly[2].x, Bounds.Min.x, Bounds.Max.x), Clamp(Poly[2], Bounds.Min.y, Bounds.Max.y));
+        Properties.PointC = Vector2(Clamp(Poly[3].x, Bounds.Min.x, Bounds.Max.x), Clamp(Poly[3], Bounds.Min.y, Bounds.Max.y));
         Library.Graphics.ImmediateDraw("Triangle", Properties);
     else 
         Properties.Filled = nil;
