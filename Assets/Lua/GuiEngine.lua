@@ -1,5 +1,8 @@
--- Constants
-local RunService = game:GetService("RunService");
+--[[
+    Old code but it works.
+]]
+
+-- Constantslocal RunService = game:GetService("RunService");
 local Vector3, __Vector2 = Vector3.new, Vector2.new; 
 local HSV, Color3, Draw, Color3New = Color3.fromHSV, Color3.fromRGB, Drawing.new, Color3.new;
 local Insert, Remove, Clear = table.insert, table.remove, table.clear;
