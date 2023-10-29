@@ -1,3 +1,16 @@
+--[[
+    Documentation: 
+
+    Cameras - 
+        Camera.new({0, 0}, 60) @resolution, @fov 
+    
+    Objects -
+        Object.new()
+
+    Vector3 - 
+        Vector3(0, 0, 0) @x, @y, @z
+]]
+
 local Vector2 = Vector2.new;
 local cos, sin, sqrt, tan, rad, pi = math.cos, math.sin, math.sqrt, math.tan, math.rad, math.pi;
 
