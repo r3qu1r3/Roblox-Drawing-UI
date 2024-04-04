@@ -3,7 +3,7 @@
 
 ## Setup 
 ```
-local ChinaLake = loadstring("[http://](https://raw.githubusercontent.com/1e20/ChinaLake/main/main.lua)")();
+local ChinaLake = loadstring(game:HttpGet("https://raw.githubusercontent.com/1e20/ChinaLake/main/main.lua")();
 local Menu = ChinaLake.new{ Title  =  "ChinaLake" };
 ```
 
