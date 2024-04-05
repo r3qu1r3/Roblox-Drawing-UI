@@ -87,7 +87,7 @@ mat4.__index = mat4;
     return m;   
 ]]
 mat4.__mul = function(self, Other)
-    local T = Other.Type or typeof(Other)
+    local T = Other.type or typeof(Other);
 
     if T == "Vector3" then
         return Vector3.new(
