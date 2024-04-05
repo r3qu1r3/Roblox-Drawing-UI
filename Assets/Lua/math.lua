@@ -90,7 +90,7 @@ mat4.__mul = function(self, Other)
     local T = Other.type or typeof(Other);
 
     if T == "Vector3" then
-        return Vector3.new(
+        return vector3.new(
             Other.x * self[1][1] + Other.y * self[2][1] + Other.z * self[3][1] + Other.w * self[4][1],
             Other.x * self[1][2] + Other.y * self[2][2] + Other.z * self[3][2] + Other.w * self[4][2],
             Other.x * self[1][3] + Other.y * self[2][3] + Other.z * self[3][3] + Other.w * self[4][3]
@@ -192,13 +192,13 @@ function mat4.look_at(position, target, up)
 	local new_right = up:cross_product(new_forward):normalise();
 	local new_up = new_forward:cross_product(new_right);
 
-	return Matrix4x4.new{
+	return mat4.new{
 		{new_right.x, new_right.y, new_right.z, 0.0},
 		{new_up.x, new_up.y, new_up.z, 0.0},
 		{new_forward.x, new_forward.y, new_forward.z, 0.0},
 		{position.x, position.y, position.z, 1.0}
 	}, new_right; 
-end
+end;
 
 function mat4.give_identity(self)
 	self[1][1] = 1; 
