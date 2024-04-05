@@ -110,7 +110,7 @@ end;
 
 function mat4.new(matrix_data) --{{f32; 4}; 4} 4x4
 	local matrix = (matrix_data or { });
-	setmetatable(Matrix, mat4);
+	setmetatable(matrix, mat4);
 
 	if (matrix_data) then return matrix; end;
 
