@@ -72,7 +72,7 @@ function vector3.new(x, y, z, w)
 end; 
 
 --@ Mat4 
-local mat4 = { Type = "Matrix" }; 
+local mat4 = { type = "Matrix" }; 
 mat4.__index = mat4; 
 
 --[[
