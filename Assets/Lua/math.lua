@@ -213,10 +213,10 @@ function mat4.projection(aspect_ratio, fov_radius, far, near)
     local near = near or 0.1; 
 
     local projection = mat4.new{
-        {self.AspectRatio * self.FovRadius, 0.0, 0.0, 0.0},
-        {0.0, self.FovRadius, 0.0, 0.0},
-        {0.0, 0.0, self.Far / (self.Far - self.Near), 1.0},
-        {0.0, 0.0, (-self.Far * self.Near) / (self.Far - self.Near), 0.0}
+        {aspect_ratio * fov_radius, 0.0, 0.0, 0.0},
+        {0.0, fov_radius, 0.0, 0.0},
+        {0.0, 0.0, far / (far - near), 1.0},
+        {0.0, 0.0, (-far * near) / (far - near), 0.0}
     };
     
     return projection;
