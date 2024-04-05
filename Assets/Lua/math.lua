@@ -208,6 +208,20 @@ function mat4.give_identity(self)
 	return self;
 end; 
 
+function mat4.projection(aspect_ratio, fov_radius, far, near)
+    local far = far or 1000; 
+    local near = near or 0.1; 
+
+    local projection = mat4.new{
+        {self.AspectRatio * self.FovRadius, 0.0, 0.0, 0.0},
+        {0.0, self.FovRadius, 0.0, 0.0},
+        {0.0, 0.0, self.Far / (self.Far - self.Near), 1.0},
+        {0.0, 0.0, (-self.Far * self.Near) / (self.Far - self.Near), 0.0}
+    };
+    
+    return projection;
+end; 
+
 --// EXPORTS 
 EXPORTS.mat4 = mat4; 
 EXPORTS.vector3 = vector3; 
