@@ -125,7 +125,7 @@ function mat4.new(matrix_data) --{{f32; 4}; 4} 4x4
 end;
 
 function mat4.translate(x, y, z)
-	return Matrix.new({
+	return mat4.new({
 		{1, 0, 0, 0};
 		{0, 1, 0, 0};
 		{0, 0, 1, 0};
