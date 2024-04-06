@@ -111,7 +111,7 @@ function camera.new(fov, aspect_ratio, resolution)
     return new_camera; 
 end; 
 
-function camera:get_projected_mesh_tris(target_mesh)
+function camera:get_projected_mesh_tris(target_mesh, light_direction)
     local ProjctedPoints = { };
 
     local rot_z = mat4.z_rotation(rad(target_mesh.rotation.x));
@@ -154,7 +154,7 @@ function camera:get_projected_mesh_tris(target_mesh)
         local CameraRay = transformed_tri.a - self.position;
 
         if (Normal:dot_product(CameraRay) > 0.0) then 
-            local LightDirection = vector3.new(-1, 0, 1):normalise();
+            local LightDirection = light_direction:normalise();
             projected_tri.light = max(0.1, LightDirection:dot_product(Normal));
 
             view_tri.a = MatrixView * transformed_tri.a;
