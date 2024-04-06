@@ -104,7 +104,7 @@ function Library.Graphics:ClearScreen()
     end; 
 
     for i, v in pairs(self.__ImmediateCache) do 
-        --v.Visible = false;
+        v.Visible = false;
         self.__ImmediateMemory[v.Class][i] = v; 
         self.__ImmediateCache[i] = nil; 
     end; 
