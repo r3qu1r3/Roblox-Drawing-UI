@@ -2455,6 +2455,4 @@ InputService.InputChanged:Connect(function(Input)
     end; 
 end);
 
-Menu:SetCategory(MenuTab);
-
 return Interface;
