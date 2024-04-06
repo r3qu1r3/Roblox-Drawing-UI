@@ -7,7 +7,7 @@ return function(Interface, GUI_ENGINE)
 
     local Colorpicker = { Elements = { } };
     
-    function Colorpicker.Colof3.fromRGBToHex(color)
+    function Colorpicker.Color3ToHex(color)
         return Format("%02X%02X%02X", math.floor(color.r * 255), math.floor(color.g * 255), math.floor(color.b * 255));
     end;
     
