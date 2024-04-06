@@ -116,11 +116,12 @@ function camera:get_projected_mesh_tris(target_mesh, light_direction)
 
     local rot_z = mat4.z_rotation(rad(target_mesh.rotation.x));
     local rot_x = mat4.x_rotation(rad(target_mesh.rotation.z));
+    local rot_y = mat4.y_rotation(rad(target_mesh.rotation.y));
     local translation = mat4.translate(target_mesh.position.x, target_mesh.position.y, target_mesh.position.z);
     local scale = mat4.scale(target_mesh.scale.x, target_mesh.scale.y, target_mesh.scale.z);
     
     local world_matrix = mat4.new():give_identity(); 
-    world_matrix = rot_z * rot_x;
+    world_matrix = rot_z * rot_x * rot_y;
     world_matrix = world_matrix * scale;
     world_matrix = world_matrix * translation;
 
