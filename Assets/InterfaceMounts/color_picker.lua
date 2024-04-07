@@ -221,4 +221,6 @@ return function(Interface, GUI_ENGINE)
             Colorpicker.Current:Set(Colorpicker.Color, Colorpicker.Transparency);
         end; 
     end);    
+
+    return Colorpicker;
 end; 
