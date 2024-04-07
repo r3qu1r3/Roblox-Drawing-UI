@@ -2,7 +2,7 @@ return function(Interface, GUI_ENGINE)
     local InputService = game:GetService("UserInputService");
 
     local function Vector2(x, y) 
-        return __Vector2(Floor(x), Floor(y));
+        return Vector2.new(Floor(x), Floor(y));
     end; 
 
     local Colorpicker = { Elements = { } };
