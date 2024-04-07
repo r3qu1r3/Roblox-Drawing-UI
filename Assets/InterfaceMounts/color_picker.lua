@@ -4,7 +4,7 @@ return function(Interface, GUI_ENGINE)
     local __Vector2 = Vector2.new; 
 
     local function Vector2(x, y) 
-        return __Vector2(Floor(x), Floor(y));
+        return __Vector2(math.floor(x), math.floor(y));
     end; 
 
     local Colorpicker = { Elements = { } };
