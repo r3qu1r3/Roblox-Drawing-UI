@@ -6,7 +6,10 @@ signal.__index = signal;
 
 function signal.new()
     local new_signal = { };
-    new_signal.listeners = { };  
+    new_signal.listeners = { }; 
+
+    setmetatable(new_signal, signal);
+    return new_signal;
 end; 
 
 function signal.connect(self, call_back)
