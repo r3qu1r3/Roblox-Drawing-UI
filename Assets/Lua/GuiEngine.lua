@@ -1,8 +1,3 @@
---[[
-    Old code but it works.
-]]
-
--- Constantslocal RunService = game:GetService("RunService");
 local Vector3, __Vector2 = Vector3.new, Vector2.new; 
 local HSV, Color3, Draw, Color3New = Color3.fromHSV, Color3.fromRGB, Drawing.new, Color3.new;
 local Insert, Remove, Clear = table.insert, table.remove, table.clear;
@@ -26,8 +21,10 @@ local RunService = game:GetService("RunService");
 
 local Library = { 
     Collection = { };
+    classes = { };
     Graphics = { 
         ProcessInput = true;
+        __FPS = 60;
         __ZIndex = 1;
         __RenderCache = { };
         __ZIndexCache = { };
@@ -37,63 +34,64 @@ local Library = {
     }; 
 };
 
-Library.Graphics.Classes = {
-    Square = {
-        Visible = true;
-        Position = Vector2(0, 0);
-        Size = Vector2(0, 0); 
-        Filled = true;
-        ZIndex = 1;
-        Color = Color3(0, 0, 0);
-        Transparency = 1;
-    };
+--// Gui Class Definitions
+Library.classes.Square = {
+    Visible = true;
+    Position = Vector2(0, 0);
+    Size = Vector2(0, 0); 
+    Filled = true;
+    ZIndex = 1;
+    Color = Color3(0, 0, 0);
+    Transparency = 1;
+};
 
-    Text = {
-        Visible = true; 
-        ZIndex = 1;
-        Position = Vector2(0, 0);
-        Size = Vector2(0, 0); 
-        Text = "";
-        TextBounds = Vector2(0, 0);
-        Color = Color3(0, 0, 0);
-        Outline = true;
-        Transparency = 1;
-    };
+Library.classes.Text = {
+    Visible = true; 
+    ZIndex = 1;
+    Position = Vector2(0, 0);
+    Size = Vector2(0, 0); 
+    Text = "";
+    TextBounds = Vector2(0, 0);
+    Color = Color3(0, 0, 0);
+    Outline = true;
+    Transparency = 1;
+};
 
-    Line = {
-        Visible = true; 
-        From = Vector2(0, 0); 
-        To = Vector2(0, 0); 
-        Thickness = 1; 
-        Color = Color3(0, 0, 0);
-        Transparency = 1;
-    };
+Library.classes.Line = {
+    Visible = true; 
+    From = Vector2(0, 0); 
+    To = Vector2(0, 0); 
+    Thickness = 1; 
+    Color = Color3(0, 0, 0);
+    Transparency = 1;
+};
 
-    Image = {
-        Visible = true; 
-        ZIndex = 1;
-        Position = Vector2(0, 0);
-        Size = Vector2(0, 0); 
-        Data = "";
-        Color = Color3(0, 0, 0);
-        Transparency = 1;
-    };
+Library.classes.Image = {
+    Visible = true; 
+    ZIndex = 1;
+    Position = Vector2(0, 0);
+    Size = Vector2(0, 0); 
+    Data = "";
+    Color = Color3(0, 0, 0);
+    Transparency = 1;
+};
 
-    Quad = { 
-        Visible = true;
-        PointA = Vector2(0, 0);
-        PointB = Vector2(0, 0);
-        PointC = Vector2(0, 0);
-        PointD = Vector2(0, 0);
-        Size = Vector2(0, 0); 
-        Filled = true;
-        ZIndex = 1;
-        Color = Color3(0, 0, 0);
-        Transparency = 1;
-    };
+Library.classes.Quad = { 
+    Visible = true;
+    PointA = Vector2(0, 0);
+    PointB = Vector2(0, 0);
+    PointC = Vector2(0, 0);
+    PointD = Vector2(0, 0);
+    Size = Vector2(0, 0); 
+    Filled = true;
+    ZIndex = 1;
+    Color = Color3(0, 0, 0);
+    Transparency = 1;
 };
 
 --@ Immediate Mode Drawing
+local DRAW_CALLS = 0;
+
 function Library.Graphics:ClearScreen()
     for i, v in pairs(self.__ImmediateMemory) do 
         for x, render in pairs(v) do 
@@ -104,17 +102,21 @@ function Library.Graphics:ClearScreen()
     end; 
 
     for i, v in pairs(self.__ImmediateCache) do 
-        v.Visible = false;
         self.__ImmediateMemory[v.Class][i] = v; 
         self.__ImmediateCache[i] = nil; 
+        v.Visible = false;
     end; 
+
+    DRAW_CALLS = 0;
 end;
 
-Library.Graphics.ImmediateDraw = function(Class, Properties)
+Library.Graphics.ImmediateDraw = function(Class, Properties, BackBuffer)
     if (Properties.Visible == false) then return; end; 
+    DRAW_CALLS += 1;
 
     local Memory = Library.Graphics.__ImmediateMemory[Class];
-    local Drawing = Memory[#Memory] or { Render = Draw(Class); Class = Class; };
+    local DRAW_ID = DRAW_CALLS;
+    local Drawing = Memory[#Memory] or { Render = Draw(Class); Class = Class };
     Remove(Memory, #Memory);
     Drawing.Render.Visible = true; 
 
@@ -275,6 +277,7 @@ function Library.ObjectInBoundsOf(Object1, Object2)
 
     local X = (Object1.__AbsolutePosition.X >= Object2.__AbsolutePosition.X and Object1.__AbsolutePosition.X <= Object2.__AbsolutePosition.X + Object2Size.X);
     local Y = (Object1.__AbsolutePosition.Y >= Object2.__AbsolutePosition.Y and Object1.__AbsolutePosition.Y <= Object2.__AbsolutePosition.Y + Object2Size.Y);
+    if (not X or not Y) then return false; end; --// Avoid Calculating 2 more values 
     local X2 = (Object1.__AbsolutePosition.X + Object1Size.X >= Object2.__AbsolutePosition.X and Object1.__AbsolutePosition.X + Object1Size.X <= Object2.__AbsolutePosition.X + Object2Size.X);
     local Y2 = (Object1.__AbsolutePosition.Y + Object1Size.Y >= Object2.__AbsolutePosition.Y and Object1.__AbsolutePosition.Y + Object1Size.Y <= Object2.__AbsolutePosition.Y + Object2Size.Y);
 
@@ -283,7 +286,9 @@ end;
 
 function Library.IsMouseOnHigherZIndexThan(Object)
     for i, obj in next, Library.Graphics.__RenderCache do 
-        if (obj.Visible and obj.Filled and obj.Transparency > 0 and obj.ZIndex > Object.ZIndex and Library.IsMouseOnObject(obj)) then 
+        if (not obj.Visible or obj.Transparency <= 0) then continue end; 
+
+        if (obj.Filled and obj.ZIndex > Object.ZIndex and Library.IsMouseOnObject(obj)) then 
             return true;
         end; 
     end; 
@@ -712,7 +717,7 @@ coroutine.resume(coroutine.create(function()
     while (true) do 
         Library.Graphics:ClearScreen();
         Library.Graphics.OnPaint:Fire();
-        RunService.RenderStepped:Wait();
+        task.wait(1 / Library.Graphics.__FPS);
     end;
 end));
 
