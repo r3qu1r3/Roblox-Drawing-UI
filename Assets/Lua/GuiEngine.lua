@@ -539,7 +539,7 @@ function Library.Graphics:Create(Class, Properties)
     local Object = { 
         Type = "Render";
         __Drawing = Draw(Class);
-        __Class = Library.Graphics.Classes[Class];
+        __Class = Library.classes[Class];
         __ClassName = Class;
         __Parent = (Properties and Properties.Parent);
         __Children = { };
